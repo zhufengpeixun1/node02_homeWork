@@ -1,1 +1,45 @@
-﻿魏春野作业
+var fs= require("fs")
+var buf1=new Buffer('珠峰');
+var buf2=new Buffer('培训');
+Buffer.concat1= function (list,len) {
+    if(list===1){
+        return list
+    }
+//如果len没传，则计算出len的长度
+    if(typeof len==="undefined"){
+        len=0;
+        for(var i=0; i<list.length;i++){
+            len+=list[i].length;//求每一个buf中的内容的长度
+        }
+    }
+    //通过len总长度构建一个buffer
+    var newBuffer=new Buffer(len);
+    //第一次的目标位置是0，下一次在++
+    var index=0;
+    for(var i=0; i<list.length; i++){
+        var cur=list[i];
+        cur.copy(newBuffer,index);
+        index+=cur.length;
+    }
+    return newBuffer.slice(0,index);
+    //万一传的非常大的数字，则需要截取
+};
+console.log(Buffer.concat1([buf1,buf2]).toString());
+
+function str(name){
+    var reg=/([a-z])/g;
+    var res=name.match(reg)
+    for(var i=0; i<res.length; i++){
+        var cur=res[i];
+        var flag=fs.exists(cur, function () {
+
+        })
+        if(!flag){
+            fs.mkdir(cur,function(){
+            })
+        }
+
+
+    }
+}
+str("a/b/c/d")
