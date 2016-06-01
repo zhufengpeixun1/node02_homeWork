@@ -1,1 +1,52 @@
-hello world
+﻿1、写一个Buffer的concat方法
+function concat(list,len){
+if(list.length==1){
+return list[0];
+    }
+if(typeof len == "undefined"){
+        len=0;
+for(var i =0 ;i<list.length){
+            len += list[i];
+        }
+    }
+var newBuffer = new Buffer(len);
+var star = 0;
+for(var k=0;k<list.length;k++){
+var cur=list[i];
+cur.copy(newBuffer,star);
+star += cur.length;
+    }
+return newBuffer.slice(0,star);
+}
+
+2、写一个事件的系统 绑定 移除 执行 绑定一次
+
+Event.prototype.once = function (eventName,callback) {
+function one(){
+        callback.apply(this,arguments);
+this.off(eventName,one);
+    }
+this.on(eventName,one);
+};
+
+
+3、写一个方法str = 'a/b/c/d' 会依次创建a,b,c,d(异步的);
+
+var fs=require("fs");
+mkdir('a/b/c/d/e');
+function mkdir(dir){
+var reg=/(\w+)\/?/g;
+var res=reg.exec(dir)[1];
+var str='';
+while(res){
+str=str+res+'/';
+fs.mkdir(str, function () {
+console.log("创建了成功");
+        });
+res=reg.exec(dir);
+if(res!=null){
+res=res[1];
+        }
+    }
+}
+
