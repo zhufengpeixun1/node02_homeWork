@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div ng-controller="disCtrl">
+    <button ng-disabled="flag" ng-click="click()">{{tem}}</button>
+</div>
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appModule', []);
+    app.controller('disCtrl', function ($scope, $interval) {
+        $scope.count = 5;
+        $scope.flag = false;
+        $scope.tem = '点击我获取验证码';
+        $scope.click = function () {
+            //$scope.tem = '等待' + 1 + '秒数';
+            var i = 0;
+            var time = $interval(function () {
+                i++;
+                if (i >= 5) {
+                    $interval.cancel(time);
+                    $scope.flag = true;
+                }
+                $scope.tem = '等待' + i + '秒数';
+            }, 1000)
+        };
+    });
+</script>
+</body>
+</html>
