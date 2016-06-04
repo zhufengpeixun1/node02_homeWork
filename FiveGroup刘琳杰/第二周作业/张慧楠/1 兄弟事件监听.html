@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="xxxMod">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div ng-controller="abCtrl" >
+    <div ng-controller="aaaCtrl">{{name}} {{age}}</div>
+    <div ng-controller="bbbCtrl">{{name}} {{age}}</div>
+</div>
+<script src="angular.js"></script>
+<script>
+/**
+* 实现兄弟控制器进行交互
+*/
+var app=angular.module('xxxMod',[]);
+app.controller('abCtrl',function($scope){
+    $scope.$on("name",function(ev,data){
+         $scope.name=data;
+    });
+    $scope.$broadcast("name",$scope.name);
+    $scope.$on("age",function(ev,data){
+        $scope.age=data;
+    });
+    $scope.$broadcast("age",$scope.age)
+});
+
+    app.controller('aaaCtrl',function($scope){
+        $scope.name="zhn";
+        $scope.$emit("name",$scope.name);
+        $scope.$on("age",function(ev,data){
+            $scope.age=data;
+        });
+    });
+
+    app.controller('bbbCtrl',function($scope){
+        $scope.age=18;
+        $scope.$emit("age",$scope.age);
+        $scope.$on("name",function(ev,data){
+            $scope.name=data;
+        });
+    });
+
+</script>
+</body>
+</html>
