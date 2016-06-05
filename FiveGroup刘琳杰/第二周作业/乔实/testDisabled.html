@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div ng-controller="ctrl">
+<button  ng-click="check()" ng-disabled="flag">{{con}}</button>
+</div>
+<script src="angular.js"></script>
+<script>
+    var app=angular.module('app',[]);
+    app.controller('ctrl',function($scope,$interval){
+        $scope.con='点击我获取验证码';
+        $scope.flag=false;
+        $scope.check=function(){
+            var count=5;
+            $scope.flag=true;
+            var timer=$interval(function(){
+            if(count<=0){
+                $scope.flag=false;
+                $scope.con='点击我获取验证码';
+                $interval.cancel(timer);
+                return;
+            }
+                $scope.con='请等待'+count+'秒';
+                count--;
+            },1000)
+        }
+
+    })
+
+</script>
+</body>
+</html>
