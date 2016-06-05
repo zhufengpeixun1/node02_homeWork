@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div ng-controller="MainCtrl">
+    <input type="text" ng-model="text"/>
+    <button ng-click="change()">先点我</button>
+</div>
+<div ng-controller="sideCtrl">
+    <button ng-click="add()">点过上面的再点我</button>
+    <p>{{name}}</p>
+</div>
+<script src="angular.js"></script>
+<script>
+    //在angular中服务是一个单例，在服务中生成一个对象，该对象就可以利用依赖注入的方式在所有的控制器中共享。参照以下例子，在一个控制器修改了服务对象的值，在另一个相邻控制器中获取到修改后的值
+    var app = angular.module('appModule', []);
+    angular.element(document).ready(function readyHandler() {
+        angular.bootstrap(document, ['appModule']);
+    });
+    app.factory('instance', function () {
+        return {};
+    });
+    app.controller('MainCtrl', function ($scope, instance) {
+        $scope.change = function () {
+            instance.name = $scope.text;
+        };
+    });
+    app.controller('sideCtrl', function ($scope, instance) {
+        $scope.add = function () {
+            $scope.name = instance.name;
+        };
+    });
+    //    var app = angular.module('appModule', []);
+    //    app.run(['$rootScope', function ($s) {
+    //        $s.name = 111;
+    //        $s.$broadcast('name', $s.name);
+    //    }]);
+    //    app.controller('eventCtrl', function ($scope) {
+    //        $scope.names = '测试';
+    //        $scope.$on('name', function (ev, data) {
+    //            $scope.names = data;
+    //            console.log(data);
+    //        })
+    //    });
+</script>
+</body>
+</html>
