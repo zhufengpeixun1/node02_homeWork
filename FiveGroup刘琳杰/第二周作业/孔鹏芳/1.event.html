@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appMod">
+<head>
+    <meta charset="UTF-8">
+    <title>event</title>
+    <link rel="stylesheet" href="angular-csp.css">
+</head>
+<body>
+<div ng-controller="totalCtrl" ng-cloak>
+    <div ng-controller="oneCtrl">
+        {{name}} {{age}}
+    </div>
+    <div ng-controller="twoCtrl">
+        {{name}} {{age}}
+    </div>
+</div>
+<script src="angular.js"></script>
+<script>
+    var app = angular.module('appMod', []);
+    app.controller('totalCtrl', function ($scope) {
+        $scope.$on("name", function (ev, data) {
+            $scope.name = data;
+        });
+        $scope.$broadcast("name", $scope.name);
+        $scope.$on("age", function (ev, data) {
+            $scope.age = data;
+        });
+        $scope.$broadcast("age", $scope.age)
+    });
+    app.controller('oneCtrl', function ($scope) {
+        $scope.name = "小明";
+        $scope.$emit("name", $scope.name);
+        $scope.$on("age", function (ev, data) {
+            $scope.age = data;
+        });
+    });
+    app.controller('twoCtrl', function ($scope) {
+        $scope.age = 18;
+        $scope.$emit("age", $scope.age);
+        $scope.$on("name", function (ev, data) {
+            $scope.name = data;
+        });
+    });
+</script>
+</body>
+</html>

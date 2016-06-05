@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="appModule">
+<head>
+    <meta charset="UTF-8">
+    <title>disabled</title>
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="angular-csp.css">
+</head>
+<body>
+<div ng-controller="first" ng-cloak>
+    <button class="btn btn-info" ng-disabled="flag" ng-click="check()">{{content}}</button>
+</div>
+<script src="angular.js"></script>
+<script type="text/javascript">
+    var app = angular.module('appModule', []);
+    app.controller('first', function ($scope, $interval) {
+        $scope.content = '点击获取验证码';
+        $scope.check = function () {
+            $scope.time = 3;
+            $scope.content = '等待' + $scope.time + '秒数';
+            $scope.flag = true;
+
+            var timer = $interval(function () {
+                if ($scope.time == 1) {
+                    $scope.content = '点击获取验证码';
+                    $scope.flag = false;
+                    $interval.cancel(timer);
+                    return;
+                }
+                $scope.time--;
+                $scope.content = '等待' + $scope.time + '秒数';
+            },1000);
+        };
+
+    });
+</script>
+</body>
+</html>
