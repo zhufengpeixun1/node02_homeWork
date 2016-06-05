@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div ng-controller="parent">
+    <div ng-controller="pre">
+        <input type="text" ng-model="name" ng-change="pre()"/>
+    </div>
+    <div ng-controller="nex">
+        <input type="text" ng-model="name" ng-change="nex()">
+    </div>
+</div>
+<script src="angular.js"></script>
+<script>
+    var app=angular.module('app',[]);
+    app.controller('parent',function($scope){
+        $scope.con=null;
+        $scope.$on('name',function(err,data){
+            $scope.con=data;
+            $scope.$broadcast('con',$scope.con);
+        });
+
+    });
+    app.controller('pre',function($scope){
+        $scope.pre=function(){
+            $scope.$emit('name',$scope.name);
+        };
+        $scope.$on('con',function(err,data){
+            $scope.name=data;
+        });
+    });
+    app.controller('nex',function($scope){
+        $scope.$on('con',function(err,data){
+            $scope.name=data;
+        });
+        $scope.nex=function(){
+            $scope.$emit('name',$scope.name);
+        }
+    });
+
+</script>
+</body>
+</html>
